@@ -20,11 +20,16 @@ import base64
 from PIL import Image
 import os
 from datetime import datetime
-from app import s3_client, s3_resource
+from app import s3_client
 import pandas as pd
 from io import StringIO
 
-
+@app.route('/health', methods =['POST'])
+def home():
+    
+        return {"success":"True",
+                "message":"AWS Running"}
+    
 @app.route('/', methods =['POST'])
 def master_login():
     if request.method == 'POST':
