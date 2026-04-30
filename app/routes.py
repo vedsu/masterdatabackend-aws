@@ -24,7 +24,7 @@ from app import s3_client
 import pandas as pd
 from io import StringIO
 
-@app.route('/health', methods =['POST'])
+@app.route('/health', methods= ['GET'])
 def home():
     
         return {"success":"True",
