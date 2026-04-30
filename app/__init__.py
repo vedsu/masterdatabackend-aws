@@ -21,7 +21,7 @@ def get_secret(secret_name, region_name):
 
         session = boto3.session.Session()
         client = session.client(
-            service_name = "secret_manager",
+            service_name = "secretmanager",
             region_name = region_name
         )
 
