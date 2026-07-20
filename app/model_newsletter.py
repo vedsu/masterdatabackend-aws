@@ -34,6 +34,29 @@ class Newsletter():
     
     
     @staticmethod
+    def data_newsletter(n_id):
+        newsletter_info = None
+        try:
+            newsletter_data = list(mongo.db.newsletter_data.find({"id": n_id}))
+            newsletter = newsletter_data[0]
+            newsletter_info = {
+                "id":newsletter.get("id"),
+                "topic":newsletter.get("topic"),
+                "category":newsletter.get("category"),
+                "description":newsletter.get("description"),
+                "website":newsletter.get("website"),
+                "price":newsletter.get("price"),
+                "status":newsletter.get("status"),
+                "published_date": newsletter.get("published_date"),
+                "thumbnail":newsletter.get("thumbnail"),
+                "document":newsletter.get("document"),
+            }
+        except Exception as e:
+            newsletter_info = None
+
+        return newsletter_info
+
+    @staticmethod
     def edit_newsletter(n_id,newsletter_status):
         try:
             mongo.db.newsletter_data.update_one({"id":n_id},{"$set": {"status": newsletter_status}})

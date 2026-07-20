@@ -343,33 +343,34 @@ def update_speaker_panel(s_id):
     
     elif request.method == 'PUT':
         try:
-            s3_url = request.form.get("photo")
             speaker_name = request.form.get("name")
-            # initializing size of string
-            """N = 3
-            
-            # using random.choices()
-            # generating random strings
-            res = ''.join(random.choices(string.ascii_uppercase +
-                                        string.digits, k=N))
-            bucket_name = "webinarprof"
-            object_key = ''.join(speaker_name.split(" "))+"_"+res
-            s3_url = f"https://{bucket_name}.s3.amazonaws.com/speaker/{object_key}.jpeg"
-            s3_client.put_object(
-            Body=image, 
-            Bucket=bucket_name, 
-            Key=f'speaker/{object_key}.jpeg')"""
-            
+            uploaded_photo = request.files.get("photo")
+
+            if uploaded_photo:
+                N = 3
+                res = ''.join(random.choices(string.ascii_uppercase +
+                                            string.digits, k=N))
+                bucket_name = "webinarprof"
+                object_key = ''.join(speaker_name.split(" "))+"_"+res
+                s3_client.put_object(
+                Body=uploaded_photo,
+                Bucket=bucket_name,
+                Key=f'speaker/{object_key}.jpeg'
+                )
+                s3_url = f"https://{bucket_name}.s3.amazonaws.com/speaker/{object_key}.jpeg"
+            else:
+                s3_url = request.form.get("photo")
+
             speaker_dict = {
                 "id": s_id,
                 "name": speaker_name,
                 "email": request.form.get("email"),
                 "contact" : request.form.get("contact"),
                 "industry": request.form.get("industry"),
-                "status": "Active",
+                "status": request.form.get("status") or "Active",
                 "bio": request.form.get("bio"),
                 "photo": s3_url,
-                
+
             }
             
             response= Speaker.update_speaker(s_id, speaker_dict)
@@ -439,8 +440,11 @@ def view_newsletter():
 #masterdata backend
 @app.route('/newsletter_panel/<n_id>', methods = ['GET','POST'])
 def update_newsletter(n_id):
-   
-        
+
+    if request.method == 'GET':
+        newsletter_data = Newsletter.data_newsletter(n_id)
+        return jsonify(newsletter_data),200
+
     if request.method == 'POST':
         newsletter_status = request.json.get("status")
         response = Newsletter.edit_newsletter(n_id, newsletter_status)
