@@ -56,8 +56,9 @@ class Webinar():
 
                 "status":webinar.get("status"),
                 "webinar_url": webinar.get("webinar_url"),
+                "website": webinar.get("website"),
                 "description":webinar.get("description"),
-                    
+
                     }
                     
                 webinar_list.append(webinar_dict)
@@ -111,8 +112,9 @@ class Webinar():
 
                 "status":webinar.get("status"),
                 "webinar_url": webinar.get("webinar_url"),
+                "website": webinar.get("website"),
                 "description":webinar.get("description"),
-                    
+
                     }
                     
                 webinar_list.append(webinar_dict)
@@ -175,6 +177,7 @@ class Webinar():
 
                     "status":webinar.get("status"),
                     "webinar_url": webinar.get("webinar_url"),
+                    "website": webinar.get("website"),
                     "description":webinar.get("description"),
 
                     }
