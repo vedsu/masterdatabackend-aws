@@ -112,10 +112,7 @@ def process_url(topic):
 @app.route('/webinar_panel/create_webinar', methods= ['POST'])
 def create_webinar():
     webinar_list = Webinar.view_webinar()
-    id = str(len(list(webinar_list)))
-    N = 3
-    res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=N))
-    w_id = res+"_"+id
+    w_id = f"w_{len(list(webinar_list)) + 1}"
     if request.method in ['POST']:
         webinar_topic = request.json.get("topic")
         speaker = request.json.get("speaker")
@@ -276,23 +273,22 @@ def speaker_panel():
 
 @app.route('/speaker_panel/create_speaker', methods = ['POST'])
 def create_speaker():
-    
-    speaker_list = Speaker.view_speaker()
-    
-    id = str(len(speaker_list))
-    
+
+    speaker_list = Speaker.list_speaker()
+
+    s_id = f"s_{len(speaker_list) + 1}"
+
     if request.method == 'POST':
-         
+
         speaker_name = request.form.get("name")
         # initializing size of string
         N = 3
-        
+
         # using random.choices()
         # generating random strings
         res = ''.join(random.choices(string.ascii_uppercase +
                                     string.digits, k=N))
-        s_id = res+"_"+id
-        
+
         bucket_name = "webinarprof"
         object_key = ''.join(speaker_name.split(" "))+"_"+res
         s3_url = f"https://{bucket_name}.s3.amazonaws.com/speaker/{object_key}.jpeg"
@@ -406,7 +402,7 @@ def order_panel():
         
         return jsonify(order_list), 200
     
-@app.route('/order_panel/<int:o_id>', methods = ['GET'])
+@app.route('/order_panel/<o_id>', methods = ['GET'])
 def order_detail(o_id):
     
     order_data = Order.order_data(o_id)
