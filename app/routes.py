@@ -10,6 +10,7 @@ from app.model_order import Order
 from app.model_category import Category
 from app.model_website import Website
 from app.model_newsletter import Newsletter
+from app.model_subscriber import Subscriber
 
 import string
 import random
@@ -587,10 +588,16 @@ def website_utility():
         return jsonify(website_list),200
     
     elif request.method == 'POST':
-        
+
         website=request.json.get("website")
         response = Website.insert_website(website)
         if response.get("success") == True:
             return response,201
         else:
             return response,403
+
+@app.route('/subscriber_panel', methods= ['GET'])
+def subscriber_panel():
+    if request.method == 'GET':
+        subscriber_list = Subscriber.list_subscribers()
+        return jsonify(subscriber_list),200
