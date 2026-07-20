@@ -112,7 +112,7 @@ def process_url(topic):
 @app.route('/webinar_panel/create_webinar', methods= ['POST'])
 def create_webinar():
     webinar_list = Webinar.view_webinar()
-    w_id = f"w_{len(list(webinar_list)) + 1}"
+    w_id = f"W_{len(list(webinar_list)) + 1}"
     if request.method in ['POST']:
         webinar_topic = request.json.get("topic")
         speaker = request.json.get("speaker")
@@ -276,7 +276,7 @@ def create_speaker():
 
     speaker_list = Speaker.list_speaker()
 
-    s_id = f"s_{len(speaker_list) + 1}"
+    s_id = f"S_{len(speaker_list) + 1}"
 
     if request.method == 'POST':
 
