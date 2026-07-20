@@ -29,6 +29,9 @@ class Order:
     @staticmethod
     def new_coupon(coupon_data):
         try:
+            existing_coupon = mongo.db.coupon_data.find_one({"coupon": coupon_data.get("coupon")})
+            if existing_coupon:
+                return ({"success":False, "message":"coupon already exists"}),403
             mongo.db.coupon_data.insert_one(coupon_data)
             return ({"success":True, "message":"coupon inserted"}),201
         except Exception as e:
@@ -64,7 +67,7 @@ class Order:
                     "country": order.get("country"),
                     "state": order.get("state"),
                     "city": order.get("city"),
-                    "zipcode": order.get("zipcode"),
+                    "zipcode": order.get("zip_code"),
                     "address": order.get("address"),
                     "document": order.get("document_ist"),
                     "website": order.get("website")
@@ -90,15 +93,15 @@ class Order:
                 "webinardate": order.get("webinardate"),
                 "topic": order.get("topic"),
                 "session": order.get("session"), # Array
-                "customername": order.get("customerName"),
-                "customeremail": order.get("customerEmail"),
-                "billingemail": order.get("billingEmail"),
+                "customername": order.get("customername"),
+                "customeremail": order.get("customeremail"),
+                "billingemail": order.get("billingemail"),
                 "orderamount": order.get("orderamount"),
                 "paymentstatus": order.get("paymentstatus"),
                 "country" : order.get("country"),
                 "state" : order.get("state"),
                 "city" : order.get("city"),
-                "zipcode" : order.get("zipcode"),
+                "zipcode" : order.get("zip_code"),
                 "address": order.get("address"),
                 "document": order.get("document_ist"),
                 "website" : order.get("website")
